@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Students extends Data{
     private String id;
@@ -32,10 +34,8 @@ public class Students extends Data{
 
             // use comma as separator
             String[] fields = line.split(",");
+            formatData(fields);
 
-            for(String field : fields) {
-                System.out.printf("%-40s",field);
-            }
             System.out.println();
         }
 
@@ -83,5 +83,22 @@ public class Students extends Data{
         }
     }
 
+    // function used to format our csv data accord to requirements
+    private static void formatData(String [] fields  ) {
 
-}
+        for(String field : fields) {
+//search for pattern that can match only digit
+            Pattern pattern1 = Pattern.compile("(\\S|\\d)");
+            Matcher matcher1 = pattern1.matcher(field);
+            if (matcher1.find()) {
+                System.out.printf("%-37s",field);
+            }
+            else{
+//expect to get non-digit data with this format
+
+                System.out.printf("%-50s",field);
+            }
+
+    }
+
+}}
