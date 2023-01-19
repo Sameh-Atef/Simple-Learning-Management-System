@@ -7,13 +7,6 @@ import java.util.regex.Pattern;
 public class Courses extends Data {
 
 
-
-
-    @Override
-    public void displayData() {
-
-
-    }
     public static void convertData(String fileName,String type) throws IOException {
         final File input = new File("src/data/"+fileName+"."+type);
         List<String> output = new ArrayList<>();

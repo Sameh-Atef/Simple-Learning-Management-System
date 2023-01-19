@@ -5,6 +5,7 @@ public class Main {
         System.out.println("Hello world!");
         Students.convertData("student-data","txt");
         Courses.convertData("Coursedata","xml");
+        Students.displayData();
 
 
     }
