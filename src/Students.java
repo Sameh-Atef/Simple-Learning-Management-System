@@ -6,8 +6,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Students extends Data{
+public class Students extends Data {
 // method to display student-data.csv
+
     public static void displayData() throws IOException {
         List<String>Student=new ArrayList<>();
 
@@ -60,27 +61,16 @@ public class Students extends Data{
             }
         }
     }
-    private static void readData (List<String>input){
-
-    }
-
-
-
-
-
 
     // function used to format our csv data accord to requirements
     private static void formatData(String [] fields  ) {
 
         for (String field : fields) {
             int i =0;
-
                 System.out.printf("%-5s%-20s%-15s%-37s%-35s%-30s%-25s",
                         fields[i],fields[i+1],fields[i+2],fields[i+3],fields[i+4],fields[i+5],fields[i+6]);
                 break;
 
-
-            //i++;
         }
     }
 private static void formatData(String [] fields, String id  ) {
@@ -90,12 +80,12 @@ private static void formatData(String [] fields, String id  ) {
 //search for pattern that can match only digit
                 int i = 1;
                 if (field.equals((id))) {
-                    System.out.printf("%-37s%-37s%-37s%-73s",field,fields[i],fields[i+1],fields[i+2]);
+                    System.out.printf("%-10s%15s%10s%30s",field,fields[i],fields[i+1],fields[i+2]);
 
                 } else {
                     break;
                 }
-                i++;
+
             }
 
 

@@ -5,8 +5,10 @@ public class Main {
         //System.out.println("Hello world!");
         //Students.convertData("student-data","txt");
         //Courses.convertData("Coursedata","xml");
-        Students.displayData();
+        //Students.displayData();
         //Students.displayData("4");
+        //Courses.displayData("7");
+        Details.displayDetails();
 
 
     }
