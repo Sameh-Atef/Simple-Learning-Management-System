@@ -72,24 +72,41 @@ public class Students extends Data{
     // function used to format our csv data accord to requirements
     private static void formatData(String [] fields  ) {
 
-        for(String field : fields) {
+        for (String field : fields) {
+            int i =0;
+
+                System.out.printf("%-5s%-20s%-15s%-37s%-35s%-30s%-25s",
+                        fields[i],fields[i+1],fields[i+2],fields[i+3],fields[i+4],fields[i+5],fields[i+6]);
+                break;
+
+
+            //i++;
+        }
+    }
+private static void formatData(String [] fields, String id  ) {
+        //System.out.printf("%-25s",fields[0]);
+
+            for(String field : fields) {
 //search for pattern that can match only digit
-            Pattern pattern1 = Pattern.compile("(\\S|\\d)");
-            Matcher matcher1 = pattern1.matcher(field);
-            if (matcher1.find()) {
-                System.out.printf("%-37s",field);
+                int i = 1;
+                if (field.equals((id))) {
+                    System.out.printf("%-37s%-37s%-37s%-73s",field,fields[i],fields[i+1],fields[i+2]);
+
+                } else {
+                    break;
+                }
+                i++;
             }
-            else{
-//expect to get non-digit data with this format
-
-                System.out.printf("%-50s",field);
-            }
-
-    }
 
 
 
-    }
+
+
+        }
+
+
+
+
         private static void displayHeader(){
             System.out.println("---------------------------------------------------------");
             System.out.println("Current Student List");
@@ -114,12 +131,9 @@ public class Students extends Data{
 
             // use comma as separator
             String[] fields = line.split(",");
-            if(fields.equals("jj")){
-            formatData(fields);
-            break;
-            }
 
-            System.out.println();
+            formatData(fields,"7");
+            //System.out.println();
         }
 
     }
