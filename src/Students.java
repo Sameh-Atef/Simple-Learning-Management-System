@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Students extends Data{
-    private String id;
-    private String name;
-    private String email;
-    private String address;
-    private String region;
-    private String country;
-
-
-
+// method to display student-data.csv
     public static void displayData() throws IOException {
         List<String>Student=new ArrayList<>();
 
@@ -24,11 +17,9 @@ public class Students extends Data{
         final File input = new File("src/data/student-data.csv");
         List<String> output = new ArrayList<>();
         BufferedReader reader = null;
-        System.out.println("---------------------------------------------------------");
-        System.out.println("Current Student List");
-        System.out.println("---------------------------------------------------------");
         reader = new BufferedReader(new FileReader(input));
         String line = null;
+        displayHeader();
 
         while ((line = reader.readLine()) != null) {
 
@@ -39,15 +30,11 @@ public class Students extends Data{
             System.out.println();
         }
 
-
-
-
     }
     public static void convertData(String fileName,String type){
         final File input = new File("src/data/"+fileName+"."+type);
         List<String> output = new ArrayList<>();
         BufferedReader reader = null;
-        BufferedWriter writer = null;
         try {
             reader = new BufferedReader(new FileReader(input));
             String line = null;
@@ -58,30 +45,29 @@ public class Students extends Data{
             for (String s: tokens){
                 output.add(s.replace("#",","));
             }
-//test output list by get method
+            //test output list by get method
            //System.out.println(output.get(100));
             reader.close();
-//write into file .csv
-            writer = new BufferedWriter(new FileWriter(new File("src/data/student-data.csv")));
-            // using list
-            for (String s : output) {
-                writer.write(s);
-                writer.newLine();
-            }
+            writeData(output,"student-data.csv");
 
-            writer.flush();
-            writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 reader.close();
-                writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+    private static void readData (List<String>input){
+
+    }
+
+
+
+
+
 
     // function used to format our csv data accord to requirements
     private static void formatData(String [] fields  ) {
@@ -101,4 +87,41 @@ public class Students extends Data{
 
     }
 
-}}
+
+
+    }
+        private static void displayHeader(){
+            System.out.println("---------------------------------------------------------");
+            System.out.println("Current Student List");
+            System.out.println("---------------------------------------------------------");
+        }
+
+
+     public static void displayData(String id) throws IOException {
+        List<String>Student=new ArrayList<>();
+
+        // creates scanner of that file path
+        //Scanner scan = new Scanner(new File("src/data/student-data.csv"));
+        // read till there aren't elements
+        final File input = new File("src/data/student-data.csv");
+        List<String> output = new ArrayList<>();
+        BufferedReader reader = null;
+
+        reader = new BufferedReader(new FileReader(input));
+        String line = null;
+
+        while ((line = reader.readLine()) != null ) {
+
+            // use comma as separator
+            String[] fields = line.split(",");
+            if(fields.equals("jj")){
+            formatData(fields);
+            break;
+            }
+
+            System.out.println();
+        }
+
+    }
+
+}

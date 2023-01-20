@@ -5,8 +5,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Courses extends Data {
-
-
     public static void convertData(String fileName,String type) throws IOException {
         final File input = new File("src/data/"+fileName+"."+type);
         List<String> output = new ArrayList<>();
@@ -34,30 +32,20 @@ public class Courses extends Data {
 
 
             }
-
             reader.close();
-            writer = new BufferedWriter(new FileWriter(new File("src/data/coursedata.csv")));
-            // using list
-            for (String s : output) {
-                writer.write(s);
-                writer.newLine();
-            }
+            writeData(output,"coursedata.csv");
 
-            writer.flush();
-            writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
         }
-
             try {
                 reader.close();
-                writer.close();
+                //writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
 
         private static String extractValue(String line,String start, String end ) {
         //pattern to parser xml created by trying and error
