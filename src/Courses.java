@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Courses extends Data {
+    // convert Data from coursedata.xml to coursedata. csv
     public static void convertData(String fileName,String type) throws IOException {
         final File input = new File("src/data/"+fileName+"."+type);
         List<String> output = new ArrayList<>();
@@ -15,7 +16,6 @@ public class Courses extends Data {
             String line = null;
             String[] tokens = new String[0];
             String words = null;
-            //String line = StringUtils.EMPTY;
             output.add("id" + "," + "CourseName" + "," + "Instructor" + "," + "CourseDuration" + "," + "CourseTime" + "," + "Location");
 
 
@@ -73,13 +73,13 @@ public class Courses extends Data {
 
         reader = new BufferedReader(new FileReader(input));
         String line = null;
-
+        //displayHeader1();
         while ((line = reader.readLine()) != null ) {
 
             // use comma as separator
             String[] fields = line.split(",");
 
-            formatData(fields,"7");
+            formatData(fields, id);
             //System.out.println();
         }
     }
@@ -89,7 +89,8 @@ public class Courses extends Data {
         for(String field : fields) {
             int i = 1;
             if (field.equals((id))) {
-                System.out.printf("%-10s%-15s%-20s%-15s%-10s",field,fields[i],fields[i+1],fields[i+2],fields[i+3]);
+                System.out.printf("%-10s%-30s%-30s%-30s%-20s",field,fields[i],fields[i+1],fields[i+2],fields[i+3]);
+                System.out.println();
 
             } else {
                 break;
@@ -101,6 +102,11 @@ public class Courses extends Data {
 
 
 
+    }
+    // Header for display as a title of course details
+    public static void displayHeader1(){
+        System.out.printf("%-10s%-30s%-30s%-30s%-20s","id","CourseName","Instructor","CourseDuration","CourseTime");
+        System.out.println();
     }
 
 }
