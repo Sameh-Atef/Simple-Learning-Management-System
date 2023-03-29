@@ -10,6 +10,40 @@ import org.json.simple.parser.ParseException;
 
 
 public class Details {
+    public static void createJson() {
+        // Create JSON object
+        JSONObject studentDetails = new JSONObject();
+
+        JSONArray courses1 = new JSONArray();
+        courses1.add(1);
+        courses1.add(2);
+        courses1.add(3);
+        courses1.add(4);
+
+        JSONArray courses2 = new JSONArray();
+        courses2.add(2);
+        courses2.add(4);
+        courses2.add(6);
+
+        JSONArray courses3 = new JSONArray();
+        courses3.add(1);
+        courses3.add(3);
+        courses3.add(5);
+        courses3.add(3);
+
+        studentDetails.put("1", courses1);
+        studentDetails.put("2", courses2);
+        studentDetails.put("3", courses3);
+
+        try (FileWriter file = new FileWriter("src/data/Student_course_details.json")) {
+            file.write(studentDetails.toJSONString());
+            System.out.println("Successfully created JSON file.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+    }
+
 
     public static void displayDetails(String student_id) throws IOException, ParseException {
         displayHeader();
