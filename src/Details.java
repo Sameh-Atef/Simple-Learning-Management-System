@@ -1,28 +1,29 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 
 
 public class Details {
 
-    public static void displayDetails(String student_id) throws IOException {
+    public static void displayDetails(String student_id) throws IOException, ParseException {
         displayHeader();
         if(isValid(student_id)){
         Students.displayData(student_id);
 
         displayDash();
         Courses.displayHeader1();
-        if(isEmpty(getCourses(student_id)))
+        if(isEmpty(getCoursesForStudents(student_id)))
             System.out.println("This student hasn't enrolled in any courses");
         else
         {
-        for(String course_id:getCourses(student_id)){
-             Courses.displayData(course_id);
+        for(String course_id:getCoursesForStudents(student_id)){
+             Courses.displayData(String.valueOf(course_id));
              //System.out.println(course_id);
              }
         }}
@@ -32,60 +33,10 @@ public class Details {
 
     }
     //get data from json provide student id and we get courses id
-    public static List<String> getCourses (String student_id) throws IOException {
-            final File input = new File("src/data/Details.json");
-            List<String> output = new ArrayList<>();
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new FileReader(input));
-                String line = null;
-                String[] tokens = new String[0];
-                String words = null;
-                //String line = StringUtils.EMPTY;
-                String course_id;
-                //String specialCharactersString = "!@#$%&*()'+,-./:;<=>?[]^_`{|}";
-                while ((line = reader.readLine()) != null) {
-                    if(line.contains(student_id+"\"")){
-// note max course student can register in is 6 courses
-                         for(int i=0; i<6;i++){
-                        /*if(reader.readLine().contains("]"))
-                            break;*/
-                             course_id = extractValue(reader.readLine());
-                             if(course_id=="null")
-                                 break;
-                            output.add(course_id);
-
-                        }
-                    }
-
-                }
-                reader.close();
-    } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return output;
-
-    }
-    private static String extractValue(String line) {
-        //pattern to parser xml created by trying and error
-        Pattern pattern = Pattern.compile("([0-9]|\\d)");
-        Matcher matcher = pattern.matcher(line);
-        String str = "null";
-        if (matcher.find()) {
-            //str = null;
-            str = matcher.group(1);
-            //System.out.println(str);
-        }
-        //return str;
-        return str;
-        //return "Not-found";
-    }
     private static void displayHeader(){
         System.out.println("===============================================");
         System.out.println("Student Details page");
         System.out.println("===============================================");
-
-
     }
     private static void displayDash(){
         System.out.println("-------------------------------------------------");
@@ -95,6 +46,29 @@ public class Details {
             return true;
         else
         return false;
+    }
+    public static List<String> getCoursesForStudents(String studentId) throws IOException, ParseException {
+        List<String>courses = new ArrayList<>();
+        try{
+            JSONParser parser = new JSONParser();
+            JSONObject studentDetails= (JSONObject) parser.parse(new FileReader("src/data/Student_course_details.json"));
+            JSONArray courseArray = (JSONArray) studentDetails.get(studentId);
+            if(courseArray!=null){
+                for (Object course : courseArray) {
+                    courses.add(course.toString());
+                }
+            }
+        } catch (Exception e){
+            System.out.println("Error: " + e);
+        }
+        //courses.add(String.valueOf(family)) ;
+        //String id = (String) studentDetails.get(studentId);
+        return courses;
+    }
+
+    public static void enrollStudent(String student_id, String course_id){
+
+
 
     }
     private static boolean isValid(String student_id){
@@ -104,6 +78,8 @@ public class Details {
          else
             return true;
     }
+
+
 
 
 
