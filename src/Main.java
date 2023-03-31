@@ -22,7 +22,7 @@ public class Main {
         //Details.displayDetails("44");
         //System.out.println(Details.getCourses("45"));
         //Details.createJson();
-        /*try{
+        try{
         while (true){
         displayHomepage();
         scanner = new Scanner(System.in);
@@ -49,7 +49,7 @@ public class Main {
 
     }}catch (Exception e) {
         displayHomepage();
-        }*/
+        }
     }
 
 
