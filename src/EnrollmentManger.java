@@ -5,12 +5,8 @@
         The student has a maximum of 6 courses to enroll in, if the student has more than 6 courses, an Exception will occur.
         The student can't enroll in the same course more than one time
         Validation must be done on the student and course ids
-        in java
-
-        Here's an example implementation in Java:
-
-        java*/
-        import java.io.*;
+        */
+import java.io.*;
         //import org.json.*;
         import org.json.simple.JSONArray;
         import org.json.simple.JSONObject;
@@ -18,14 +14,14 @@
         import org.json.simple.parser.ParseException;
 
 public class EnrollmentManger {
-    
+
     private static final int MAX_COURSES = 6;
     private static final int MIN_COURSES = 1;
-    private JSONObject data;
+    private  final JSONObject data;
 
     public EnrollmentManger() throws IOException {
         // Load the existing data from the JSON file
-        File file = new File("src/data/test.json");
+        File file = new File("src/data/Student_course_details.json");
         if (file.exists()) {
             try (FileReader reader = new FileReader(file)) {
                 //char[] chars = new char[(int) file.length()];
@@ -41,7 +37,7 @@ public class EnrollmentManger {
         }
     }
 
-    public void enrollStudent(int studentId, int courseId) throws IOException {
+    public void enrollStudent(int studentId, int courseId) {
         // Check if the student id and course id are valid
         if (!isValidStudentId(studentId)) {
             throw new IllegalArgumentException("Invalid student id");
@@ -71,15 +67,16 @@ public class EnrollmentManger {
 
 
         // Save the updated data to the JSON file
-        try (FileWriter file = new FileWriter("src/data/test.json")) {
+        try (FileWriter file = new FileWriter("src/data/Student_course_details.json")) {
             file.write(data.toJSONString());
             System.out.println("Successfully updated json file");
-            file.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
     }
     public void unenrollStudent(int studentId, int courseId) {
+        JSONArray courses = (JSONArray) data.get(String.valueOf(studentId));
+
         // Check if the student id and course id are valid
         if (!isValidStudentId(studentId)) {
             throw new IllegalArgumentException("Invalid student id");
@@ -87,9 +84,8 @@ public class EnrollmentManger {
         if (!isValidCourseId(courseId)) {
             throw new IllegalArgumentException("Invalid course id");
         }
-        JSONArray courses = (JSONArray) data.get(String.valueOf(studentId));
         //List<String>courses = new ArrayList<>();
-        // Check if the student has already enrolled in the maximum number of courses
+        // Check if the student has  enrolled in the min number of courses
         if (courses != null && courses.size() <= MIN_COURSES) {
             throw new IllegalArgumentException("Student has enrolled in the minimum number of courses");
         }
@@ -97,32 +93,53 @@ public class EnrollmentManger {
 
 
         // Add the course to the student's record
-        if (courses == null | !courses.toJSONString().contains(String.valueOf(courseId))) {
+        if (courses == null ) {
             throw new IllegalArgumentException("Student isn't enrolled in the course");
-
         }
-        for( Object obj : courses){
-            System.out.println(obj);
-            if (String.valueOf(courseId).contains(obj.toString())) {
+        /*if (courses.equals(String.valueOf(courseId))) {
+            for( Object obj : courses){
                 System.out.println(obj);
+                if (String.valueOf(courseId).equals(String.valueOf(obj))) {
+                    System.out.println(obj);
+                    courses.remove(obj);
+                    System.out.println(courses);
+                    break;
+                }
+            }
+            throw new IllegalArgumentException("Student isn't enrolled in the course");
+        }*/
+        boolean found = false;
+        //JSONObject obj = null;
+        /*for(Object obj : courses){
+            System.out.println(obj);
+            if (String.valueOf(courseId).equals(String.valueOf(obj))) {
+                System.out.println(obj);
+                found = true;
                 courses.remove(obj);
                 System.out.println(courses);
-                break;
-            }
-        }
-        System.out.println();
+                //break;
+            }}*/
+        //System.out.println(courses.get(0));
 
+        for(int i = 0; i<courses.size(); i++){
+                if(String.valueOf(courses.get(i)).equals(String.valueOf(courseId))){
+                    System.out.println(courses.get(i));
+                    courses.remove(i);
+                    found = true;
+                }
+            }
+
+        if(!found){
+            throw new IllegalArgumentException("Student isn't enrolled in the course");
+        }
             System.out.println("------------------");
             //List<Integer>list = new ArrayList<>(courses) remove(courseId);
 
 
             // Save the updated data to the JSON file
-            try (FileWriter file = new FileWriter("src/data/test.json")) {
-
+            try (FileWriter file = new FileWriter("src/data/Student_course_details.json")) {
                 file.write(data.toJSONString());
-
                 System.out.println("Successfully updated json file");
-                file.close();
             } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
@@ -169,12 +186,11 @@ public class EnrollmentManger {
         courses.add(new_course_id);
         System.out.println("------------------");
         // Save the updated data to the JSON file
-        try (FileWriter file = new FileWriter("src/data/test.json")) {
+        try (FileWriter file = new FileWriter("src/data/Student_course_details.json")) {
 
             file.write(data.toJSONString());
 
             System.out.println("Successfully updated json file");
-            file.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -185,8 +201,9 @@ public class EnrollmentManger {
     private boolean isValidStudentId(int studentId) {
         boolean valid = false;
         // Validation logic for student id
-        if(studentId>0 && studentId<=100)
+        if(studentId>0 && studentId<=100) {
             valid=true;
+        }
         // Return true if the student id is valid, false otherwise
         return valid;
     }
@@ -201,13 +218,13 @@ public class EnrollmentManger {
     }
 
 public static void main(String[] args) throws IOException {
-    EnrollmentManger enroll = new EnrollmentManger();
-    //enroll.enroll(3,3);
+    //EnrollmentManger enroll = new EnrollmentManger();
+    //enroll.enrollStudent(3,4);
     //enroll.enroll(4,4);
-    //enroll.unenrollStudent(3,1);
+    //enroll.unenrollStudent(4,3);
     //enroll.unenrollStudent(5,4);
     //enroll.unenroll(5,6);
-    enroll.replaceStudent(4,7,1);
+    //enroll.replaceStudent(4,7,1);
 
 
 

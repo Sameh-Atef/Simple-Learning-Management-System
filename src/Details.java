@@ -7,8 +7,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
-
 public class Details {
     public static void createJson() {
         // Create JSON object
@@ -29,7 +27,6 @@ public class Details {
         courses3.add(1);
         courses3.add(3);
         courses3.add(5);
-        courses3.add(3);
 
         studentDetails.put("1", courses1);
         studentDetails.put("2", courses2);
@@ -45,26 +42,31 @@ public class Details {
     }
 
 
-    public static void displayDetails(String student_id) throws IOException, ParseException {
+    public static void displayStudent(int student_id) throws IOException, ParseException {
         displayHeader();
-        if(isValid(student_id)){
-        Students.displayData(student_id);
-
+        if(isValidStudentId(student_id))
+        Students.displayData(String.valueOf(student_id));
+    }
+    public static void displayCourse(int student_id) throws IOException, ParseException {
+        try {
         displayDash();
         Courses.displayHeader1();
-        if(isEmpty(getCoursesForStudents(student_id)))
+        if(isValidStudentId(student_id)){
+        if(getCoursesForStudents(String.valueOf(student_id)).size()==0)
             System.out.println("This student hasn't enrolled in any courses");
         else
         {
-        for(String course_id:getCoursesForStudents(student_id)){
+        for(String course_id:getCoursesForStudents(String.valueOf(student_id))){
              Courses.displayData(String.valueOf(course_id));
              //System.out.println(course_id);
              }
-        }}
-        else
-        System.out.println("Invalid Student ID");
+        }
+        }
         displayDash();
-
+        }catch(Exception e){
+        System.out.println("The input you have provided is invalid, please enter a valid input");
+        displayDash();
+        }
     }
     //get data from json provide student id and we get courses id
     private static void displayHeader(){
@@ -73,13 +75,13 @@ public class Details {
         System.out.println("===============================================");
     }
     private static void displayDash(){
-        System.out.println("-------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------");
     }
     private static boolean isEmpty(List<String>output){
         if(output.isEmpty())
             return true;
         else
-        return false;
+            return false;
     }
     public static List<String> getCoursesForStudents(String studentId) throws IOException, ParseException {
         List<String>courses = new ArrayList<>();
@@ -95,23 +97,44 @@ public class Details {
         } catch (Exception e){
             System.out.println("Error: " + e);
         }
-        //courses.add(String.valueOf(family)) ;
-        //String id = (String) studentDetails.get(studentId);
         return courses;
     }
 
-    public static void enrollStudent(String student_id, String course_id){
+    private static boolean isValid(String student_id) {
+        try {
+            int number = Integer.parseInt(student_id);
+            if (number > 100 | number < 0)
+                return false;
 
+        }catch (Exception e ){
+            System.out.println("Invalid student id");
+        }
+        return true;
+    }
+    private static boolean isValidCourseId(int courseId) {
+        boolean valid = false;
+        // Validation logic for course id
+        if(courseId>0 && courseId<=17)
+            valid=true;
+        // Return true if the course id is valid, false otherwise
+        return valid;
+    }
+    private static boolean isValidStudentId(int studentId) {
+        boolean valid = false;
+        // Validation logic for student id
+        if(studentId>0 && studentId<=100) {
+            valid=true;
+        }
+        // Return true if the student id is valid, false otherwise
+        return valid;
+    }
 
+    public static void main(String args[]) throws IOException, ParseException {
+        //System.out.println(getCoursesForStudents("70").size());
+        //displayCourse(70);
 
     }
-    private static boolean isValid(String student_id){
-        int number = Integer.parseInt(student_id);
-        if(number>100 | number<0)
-             return false;
-         else
-            return true;
-    }
+
 
 
 

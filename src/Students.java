@@ -60,23 +60,18 @@ public class Students extends Data {
 
     // function used to format our csv data accord to requirements
     private static void formatData(String [] fields  ) {
-
             int i =0;
                 System.out.printf("%-5s%-20s%-15s%-37s%-35s%-30s%-25s",
                         fields[i],fields[i+1],fields[i+2],fields[i+3],fields[i+4],fields[i+5],fields[i+6]);
-
     }
 private static void formatData(String [] fields, String id  ) {
         //System.out.printf("%-25s",fields[0]);
-
             for(String field : fields) {
 //search for pattern that can match only digit
                 int i = 1;
                 if (field.equals((id))) {
                     System.out.printf("%-10s%-30s%-10s%-30s",field,fields[i],fields[i+1],fields[i+2]);
                     System.out.println();
-
-
                 } else {
                     break;
                 }
@@ -91,9 +86,9 @@ private static void formatData(String [] fields, String id  ) {
         }
         //display Header as a title
         private static void displayHeader(){
-            System.out.println("---------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------------------");
             System.out.println("Current Student List");
-            System.out.println("---------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------------------");
         }
     // display Data of Students file csv
 
@@ -112,7 +107,6 @@ private static void formatData(String [] fields, String id  ) {
          displayHeader1();
 
         while ((line = reader.readLine()) != null ) {
-
             // use comma as separator
             String[] fields = line.split(",");
             formatData(fields,id);
@@ -130,5 +124,7 @@ private static void formatData(String [] fields, String id  ) {
 
 
     }
+
+
 
 }
